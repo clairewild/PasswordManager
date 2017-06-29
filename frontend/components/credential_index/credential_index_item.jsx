@@ -8,7 +8,7 @@ class CredentialIndexItem extends React.Component {
   render() {
     const info = this.props.info;
     return (
-      <div>
+      <div className="index-item">
         <h3>{info.website}</h3>
         <p>{info.username}</p>
       </div>

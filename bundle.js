@@ -29934,19 +29934,19 @@ var CredentialIndexItem = function (_React$Component) {
   }
 
   _createClass(CredentialIndexItem, [{
-    key: 'render',
+    key: "render",
     value: function render() {
       var info = this.props.info;
       return _react2.default.createElement(
-        'div',
-        null,
+        "div",
+        { className: "index-item" },
         _react2.default.createElement(
-          'h3',
+          "h3",
           null,
           info.website
         ),
         _react2.default.createElement(
-          'p',
+          "p",
           null,
           info.username
         )

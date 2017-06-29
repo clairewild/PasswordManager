@@ -16,5 +16,10 @@
 }
 
 .credential-index {
-  
+  position: fixed;
+  left: 200px;
+}
+
+.index-item {
+
 }
