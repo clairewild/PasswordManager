@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 
 import RootReducer from '../reducers/root_reducer.js';
 
-preloadedState = {
+const preloadedState = {
   "own_credentials": [
     {
       "website": "google.com",
@@ -68,7 +68,7 @@ preloadedState = {
   "name": "John Doe"
 }
 
-const configureStore = () => (
+const configureStore = (preloadedState = preloadedState) => (
   createStore(RootReducer, preloadedState, applyMiddleware(thunk))
 );
 
