@@ -12,7 +12,8 @@ class Sidebar extends React.Component {
   }
 
   changeSelector(option) {
-    return () => {
+    return (e) => {
+      e.stopPropagation();
       this.setState({
         index: option
       });
@@ -24,14 +25,26 @@ class Sidebar extends React.Component {
       <div>
         <aside className="sidebar">
           <ul>
-            <li onClick={this.changeSelector("all")}>All</li>
-            <li>Most used</li>
-            <li onClick={this.changeSelector("shared_with_others")}>My shared logins</li>
-            <li onClick={this.changeSelector("shared_with_me")}>Shared with me</li>
+            <div onClick={this.changeSelector("all")} className="sidebar-item">
+              <p>All</p>
+            </div>
+
+            <div className="sidebar-item">
+              <p>Most used</p>
+            </div>
+
+            <div onClick={this.changeSelector("shared_with_others")} className="sidebar-item">
+              <p >My shared logins</p>
+            </div>
+
+            <div onClick={this.changeSelector("shared_with_me")} className="sidebar-item">
+              <p>Shared with me</p>
+            </div>
           </ul>
         </aside>
 
         <CredentialIndexContainer setting={ this.state.setting }/>
+        { this.props.children }
       </div>
     );
   }

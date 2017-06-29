@@ -14853,60 +14853,8 @@ var _root_reducer2 = _interopRequireDefault(_root_reducer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var preloadedState = {
-  "own_credentials": [{
-    "website": "google.com",
-    "username": "johndoe@gmail.com",
-    "password_id": "#jknkjndsjk$SSD"
-  }, {
-    "website": "facebook.com",
-    "username": "johndoe@gmail.com",
-    "password_id": "nnjnnnc#D"
-  }, {
-    "website": "reddit.com",
-    "username": "thejohndoe",
-    "password_id": "#)_2-==23D"
-  }, {
-    "website": "wellsfargo.com",
-    "username": "johndoebanks",
-    "password_id": "iuh!@@22"
-  }, {
-    "website": "netflix.com",
-    "username": "johndoeandchill",
-    "password_id": "(*#$2k$SSD"
-  }, {
-    "website": "play.hbogo.com",
-    "username": "johndoewatchesgameofthrones",
-    "password_id": "23789$$SSD"
-  }],
-  "shared_with_me": [{
-    "website": "youtube.com",
-    "username": "macklemore299",
-    "password_id": "(*#$2k$SSD",
-    "lender_user_id": "macklemore"
-  }, {
-    "website": "hulu.com",
-    "username": "lorenzo789",
-    "password_id": "23789$$SSD",
-    "lender_user_id": "lorenzochello"
-  }],
-  "shared_with_others": [{
-    "website": "netflix.com",
-    "username": "johndoeandchill",
-    "password_id": "(*#$2k$SSD",
-    "borrower_user_id": "thefriendofjohndoe"
-  }, {
-    "website": "play.hbogo.com",
-    "username": "johndoewatchesgameofthrones",
-    "password_id": "23789$$SSD",
-    "borrower_user_id": "gotfan"
-  }],
-  "username": "johndoe19",
-  "name": "John Doe"
-};
-
 var configureStore = function configureStore() {
-  var preloadedState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : preloadedState;
+  var preloadedState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   return (0, _redux.createStore)(_root_reducer2.default, preloadedState, (0, _redux.applyMiddleware)(_reduxThunk2.default));
 };
 
@@ -15003,7 +14951,8 @@ var Sidebar = function (_React$Component) {
     value: function changeSelector(option) {
       var _this2 = this;
 
-      return function () {
+      return function (e) {
+        e.stopPropagation();
         _this2.setState({
           index: option
         });
@@ -15022,28 +14971,45 @@ var Sidebar = function (_React$Component) {
             'ul',
             null,
             _react2.default.createElement(
-              'li',
-              { onClick: this.changeSelector("all") },
-              'All'
+              'div',
+              { onClick: this.changeSelector("all"), className: 'sidebar-item' },
+              _react2.default.createElement(
+                'p',
+                null,
+                'All'
+              )
             ),
             _react2.default.createElement(
-              'li',
-              null,
-              'Most used'
+              'div',
+              { className: 'sidebar-item' },
+              _react2.default.createElement(
+                'p',
+                null,
+                'Most used'
+              )
             ),
             _react2.default.createElement(
-              'li',
-              { onClick: this.changeSelector("shared_with_others") },
-              'My shared logins'
+              'div',
+              { onClick: this.changeSelector("shared_with_others"), className: 'sidebar-item' },
+              _react2.default.createElement(
+                'p',
+                null,
+                'My shared logins'
+              )
             ),
             _react2.default.createElement(
-              'li',
-              { onClick: this.changeSelector("shared_with_me") },
-              'Shared with me'
+              'div',
+              { onClick: this.changeSelector("shared_with_me"), className: 'sidebar-item' },
+              _react2.default.createElement(
+                'p',
+                null,
+                'Shared with me'
+              )
             )
           )
         ),
-        _react2.default.createElement(_credential_index_container2.default, { setting: this.state.setting })
+        _react2.default.createElement(_credential_index_container2.default, { setting: this.state.setting }),
+        this.props.children
       );
     }
   }]);
@@ -15087,11 +15053,29 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(73);
 
+var _credentials_reducer = __webpack_require__(318);
+
+var _credentials_reducer2 = _interopRequireDefault(_credentials_reducer);
+
+var _shared_reducer = __webpack_require__(386);
+
+var _shared_reducer2 = _interopRequireDefault(_shared_reducer);
+
+var _sharing_reducer = __webpack_require__(387);
+
+var _sharing_reducer2 = _interopRequireDefault(_sharing_reducer);
+
+var _user_reducer = __webpack_require__(388);
+
+var _user_reducer2 = _interopRequireDefault(_user_reducer);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var RootReducer = (0, _redux.combineReducers)({
-  own_credentials: CredentialsReducer,
-  shared_with_me: SharedReducer,
-  shared_with_others: SharingReducer,
-  user: UserReducer
+  own_credentials: _credentials_reducer2.default,
+  shared_with_me: _shared_reducer2.default,
+  shared_with_others: _sharing_reducer2.default,
+  user: _user_reducer2.default
 });
 
 exports.default = RootReducer;
@@ -29766,18 +29750,19 @@ var _credential_index2 = _interopRequireDefault(_credential_index);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
-  var credentials = void 0;
-  console.log(ownProps);
-  switch (ownProps.params.setting) {
+  switch (ownProps.setting) {
     case "all":
-      credentails = state.own_credentials.concat(state.shared_with_me).concat(state.shared_with_others);
+      return {
+        credentials: state.own_credentials.concat(state.shared_with_me).concat(state.shared_with_others)
+      };
     case "shared_with_me":
-      credentials = state.shared_with_me;
+      ({
+        credentials: state.shared_with_me
+      });
     case "shared_with_others":
-      credentials = state.shared_with_others;
-  }
-  return {
-    credentials: credentials
+      return {
+        credentials: state.shared_with_others
+      };
   };
 };
 
@@ -29833,7 +29818,7 @@ var CredentialIndex = function (_React$Component) {
         null,
         _react2.default.createElement(
           'ul',
-          null,
+          { className: 'credential-index' },
           items
         )
       );
@@ -29973,6 +29958,253 @@ var CredentialIndexItem = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = CredentialIndexItem;
+
+/***/ }),
+/* 290 */,
+/* 291 */,
+/* 292 */,
+/* 293 */,
+/* 294 */,
+/* 295 */,
+/* 296 */,
+/* 297 */,
+/* 298 */,
+/* 299 */,
+/* 300 */,
+/* 301 */,
+/* 302 */,
+/* 303 */,
+/* 304 */,
+/* 305 */,
+/* 306 */,
+/* 307 */,
+/* 308 */,
+/* 309 */,
+/* 310 */,
+/* 311 */,
+/* 312 */,
+/* 313 */,
+/* 314 */,
+/* 315 */,
+/* 316 */,
+/* 317 */,
+/* 318 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(8);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var preloadedState = [{
+  "website": "google.com",
+  "username": "johndoe@gmail.com",
+  "password_id": "#jknkjndsjk$SSD"
+}, {
+  "website": "facebook.com",
+  "username": "johndoe@gmail.com",
+  "password_id": "nnjnnnc#D"
+}, {
+  "website": "reddit.com",
+  "username": "thejohndoe",
+  "password_id": "#)_2-==23D"
+}, {
+  "website": "wellsfargo.com",
+  "username": "johndoebanks",
+  "password_id": "iuh!@@22"
+}, {
+  "website": "netflix.com",
+  "username": "johndoeandchill",
+  "password_id": "(*#$2k$SSD"
+}, {
+  "website": "play.hbogo.com",
+  "username": "johndoewatchesgameofthrones",
+  "password_id": "23789$$SSD"
+}];
+
+var CredentialsReducer = function CredentialsReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : preloadedState;
+  var action = arguments[1];
+
+  Object.freeze(state);
+  switch (action.type) {
+    default:
+      return state;
+  }
+};
+
+exports.default = CredentialsReducer;
+
+/***/ }),
+/* 319 */,
+/* 320 */,
+/* 321 */,
+/* 322 */,
+/* 323 */,
+/* 324 */,
+/* 325 */,
+/* 326 */,
+/* 327 */,
+/* 328 */,
+/* 329 */,
+/* 330 */,
+/* 331 */,
+/* 332 */,
+/* 333 */,
+/* 334 */,
+/* 335 */,
+/* 336 */,
+/* 337 */,
+/* 338 */,
+/* 339 */,
+/* 340 */,
+/* 341 */,
+/* 342 */,
+/* 343 */,
+/* 344 */,
+/* 345 */,
+/* 346 */,
+/* 347 */,
+/* 348 */,
+/* 349 */,
+/* 350 */,
+/* 351 */,
+/* 352 */,
+/* 353 */,
+/* 354 */,
+/* 355 */,
+/* 356 */,
+/* 357 */,
+/* 358 */,
+/* 359 */,
+/* 360 */,
+/* 361 */,
+/* 362 */,
+/* 363 */,
+/* 364 */,
+/* 365 */,
+/* 366 */,
+/* 367 */,
+/* 368 */,
+/* 369 */,
+/* 370 */,
+/* 371 */,
+/* 372 */,
+/* 373 */,
+/* 374 */,
+/* 375 */,
+/* 376 */,
+/* 377 */,
+/* 378 */,
+/* 379 */,
+/* 380 */,
+/* 381 */,
+/* 382 */,
+/* 383 */,
+/* 384 */,
+/* 385 */,
+/* 386 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(8);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var preloadedState = [{
+  "website": "youtube.com",
+  "username": "macklemore299",
+  "password_id": "(*#$2k$SSD",
+  "lender_user_id": "macklemore"
+}, {
+  "website": "hulu.com",
+  "username": "lorenzo789",
+  "password_id": "23789$$SSD",
+  "lender_user_id": "lorenzochello"
+}];
+
+var SharedReducer = function SharedReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : preloadedState;
+  var action = arguments[1];
+
+  Object.freeze(state);
+  switch (action.type) {
+    default:
+      return state;
+  }
+};
+
+exports.default = SharedReducer;
+
+/***/ }),
+/* 387 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(8);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var preloadedState = [{
+  "website": "netflix.com",
+  "username": "johndoeandchill",
+  "password_id": "(*#$2k$SSD",
+  "borrower_user_id": "thefriendofjohndoe"
+}, {
+  "website": "play.hbogo.com",
+  "username": "johndoewatchesgameofthrones",
+  "password_id": "23789$$SSD",
+  "borrower_user_id": "gotfan"
+}];
+
+var SharingReducer = function SharingReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : preloadedState;
+  var action = arguments[1];
+
+  Object.freeze(state);
+  switch (action.type) {
+    default:
+      return state;
+  }
+};
+
+exports.default = SharingReducer;
+
+/***/ }),
+/* 388 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var preloadedState = {
+  "username": "johndoe19",
+  "name": "John Doe"
+};
 
 /***/ })
 /******/ ]);

@@ -12,7 +12,7 @@ class CredentialIndex extends React.Component {
 
     return (
       <div>
-        <ul>
+        <ul className="credential-index">
           {items}
         </ul>
       </div>
