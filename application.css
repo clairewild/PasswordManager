@@ -1,25 +1,73 @@
-.sidebar {
-  position: fixed;
-  height: 100%;
-  background-color: lightgrey;
-  color: white;
+body {
   font-family: sans-serif;
 }
 
+.header-bar {
+  display: flex;
+  align-items: center;
+  height: 50px;
+}
+
+.header-bar h1 {
+  color: grey;
+}
+
+.header-bar strong {
+  color: red;
+}
+
+#logo {
+  width: 50px;
+}
+
+.sidebar {
+  position: fixed;
+  width: 200px;
+  height: 100%;
+  background-color: #9b9b9b;
+  color: white;
+  font-size: 15px;
+}
+
 .sidebar-item {
-  padding: 10px 20px;
+  padding: 10px 0 10px 10px;
+  margin-left: 40px;
 }
 
 .sidebar-item:hover {
-  background-color: grey;
+  background-color: #757575;
   cursor: pointer;
 }
 
 .credential-index {
   position: fixed;
+  height: 100%;
+  width: 300px;
+  overflow-y: scroll;
   left: 200px;
+  border: 1px solid lightgrey;
 }
 
 .index-item {
+  padding: 10px;
+  color: #4a4a4a;
+  border-bottom: 1px solid lightgrey;
+}
 
+.index-item:hover {
+  background-color: #dbdbdb;
+  cursor: pointer;
+}
+
+.index-item p {
+  font-size: 12px;
+}
+
+.index-title {
+  margin: 0;
+  padding-bottom: 10px;
+}
+
+.arrow {
+  
 }
