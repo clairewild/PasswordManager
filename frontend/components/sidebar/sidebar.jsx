@@ -8,14 +8,14 @@ class Sidebar extends React.Component {
     this.state = {
       setting: "all"
     }
-    this.changeSelector = this.changeSelector.bind(this)
+    this.changeSetting = this.changeSetting.bind(this)
   }
 
-  changeSelector(option) {
+  changeSetting(option) {
     return (e) => {
       e.stopPropagation();
       this.setState({
-        index: option
+        setting: option
       });
     }
   }
@@ -25,7 +25,7 @@ class Sidebar extends React.Component {
       <div>
         <aside className="sidebar">
           <ul>
-            <div onClick={this.changeSelector("all")} className="sidebar-item">
+            <div onClick={this.changeSetting("all")} className="sidebar-item">
               <p>All</p>
             </div>
 
@@ -33,18 +33,18 @@ class Sidebar extends React.Component {
               <p>Most used</p>
             </div>
 
-            <div onClick={this.changeSelector("shared_with_others")} className="sidebar-item">
-              <p >My shared logins</p>
+            <div onClick={this.changeSetting("shared_with_others")} className="sidebar-item">
+              <p>My shared logins</p>
             </div>
 
-            <div onClick={this.changeSelector("shared_with_me")} className="sidebar-item">
+            <div onClick={this.changeSetting("shared_with_me")} className="sidebar-item">
               <p>Shared with me</p>
             </div>
           </ul>
         </aside>
 
-        <CredentialIndexContainer setting={ this.state.setting }/>
-        { this.props.children }
+        <CredentialIndexContainer setting={this.state.setting}/>
+        {this.props.children}
       </div>
     );
   }

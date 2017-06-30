@@ -7,7 +7,9 @@ class CredentialDetail extends React.Component {
 
   render() {
     return (
-      <div></div>
+      <div className="credential-detail">
+        <h3>{this.props.details.website}</h3>
+      </div>
     );
   }
 }

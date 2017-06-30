@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 class CredentialIndexItem extends React.Component {
   constructor(props) {
@@ -7,11 +8,15 @@ class CredentialIndexItem extends React.Component {
 
   render() {
     const info = this.props.info;
+    const link = `/credential/${info.id}`;
+
     return (
       <div className="index-item">
-        <h3 className="index-title">{info.website}</h3>
-        <p>{info.username}</p>
-        <i className="arrow fa fa-angle-right" aria-hidden="true"></i>
+        <Link to={ link }>
+          <h3 className="index-title">{info.website}</h3>
+          <p>{info.username}</p>
+          <i className="arrow fa fa-angle-right" aria-hidden="true"></i>
+        </Link>
       </div>
     );
   }

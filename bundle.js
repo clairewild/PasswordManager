@@ -14944,7 +14944,7 @@ var CredentialIndex = function (_React$Component) {
     key: 'render',
     value: function render() {
       var items = this.props.credentials.map(function (item) {
-        return _react2.default.createElement(_credential_index_item2.default, { key: item.website, info: item });
+        return _react2.default.createElement(_credential_index_item2.default, { key: item.id, info: item });
       });
 
       return _react2.default.createElement(
@@ -14977,8 +14977,6 @@ Object.defineProperty(exports, "__esModule", {
 
 var _reactRedux = __webpack_require__(44);
 
-var _reactRouter = __webpack_require__(73);
-
 var _credential_index = __webpack_require__(134);
 
 var _credential_index2 = _interopRequireDefault(_credential_index);
@@ -14992,9 +14990,9 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
         credentials: state.own_credentials.concat(state.shared_with_me).concat(state.shared_with_others)
       };
     case "shared_with_me":
-      ({
+      return {
         credentials: state.shared_with_me
-      });
+      };
     case "shared_with_others":
       return {
         credentials: state.shared_with_others
@@ -15002,7 +15000,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
   };
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps, null)((0, _reactRouter.withRouter)(_credential_index2.default));
+exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(_credential_index2.default);
 
 /***/ }),
 /* 136 */
@@ -15020,6 +15018,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _react = __webpack_require__(6);
 
 var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = __webpack_require__(73);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -15039,23 +15039,29 @@ var CredentialIndexItem = function (_React$Component) {
   }
 
   _createClass(CredentialIndexItem, [{
-    key: "render",
+    key: 'render',
     value: function render() {
       var info = this.props.info;
+      var link = '/credential/' + info.id;
+
       return _react2.default.createElement(
-        "div",
-        { className: "index-item" },
+        'div',
+        { className: 'index-item' },
         _react2.default.createElement(
-          "h3",
-          { className: "index-title" },
-          info.website
-        ),
-        _react2.default.createElement(
-          "p",
-          null,
-          info.username
-        ),
-        _react2.default.createElement("i", { className: "arrow fa fa-angle-right", "aria-hidden": "true" })
+          _reactRouter.Link,
+          { to: link },
+          _react2.default.createElement(
+            'h3',
+            { className: 'index-title' },
+            info.website
+          ),
+          _react2.default.createElement(
+            'p',
+            null,
+            info.username
+          ),
+          _react2.default.createElement('i', { className: 'arrow fa fa-angle-right', 'aria-hidden': 'true' })
+        )
       );
     }
   }]);
@@ -15100,9 +15106,17 @@ var CredentialDetail = function (_React$Component) {
   }
 
   _createClass(CredentialDetail, [{
-    key: 'render',
+    key: "render",
     value: function render() {
-      return _react2.default.createElement('div', null);
+      return _react2.default.createElement(
+        "div",
+        { className: "credential-detail" },
+        _react2.default.createElement(
+          "h3",
+          null,
+          this.props.details.website
+        )
+      );
     }
   }]);
 
@@ -15124,15 +15138,26 @@ Object.defineProperty(exports, "__esModule", {
 
 var _reactRedux = __webpack_require__(44);
 
-var _reactRouter = __webpack_require__(73);
-
 var _credential_detail = __webpack_require__(137);
 
 var _credential_detail2 = _interopRequireDefault(_credential_detail);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (0, _reactRedux.connect)(null, null)((0, _reactRouter.withRouter)(_credential_detail2.default));
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+  var credentials = state.own_credentials.concat(state.shared_with_me).concat(state.shared_with_others);
+  var info = null;
+  credentials.forEach(function (obj) {
+    if (obj.id == ownProps.params.credentialId) {
+      info = obj;
+    }
+  });
+  return {
+    details: info
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(_credential_detail2.default);
 
 /***/ }),
 /* 139 */
@@ -15174,19 +15199,19 @@ var Sidebar = function (_React$Component) {
     _this.state = {
       setting: "all"
     };
-    _this.changeSelector = _this.changeSelector.bind(_this);
+    _this.changeSetting = _this.changeSetting.bind(_this);
     return _this;
   }
 
   _createClass(Sidebar, [{
-    key: 'changeSelector',
-    value: function changeSelector(option) {
+    key: 'changeSetting',
+    value: function changeSetting(option) {
       var _this2 = this;
 
       return function (e) {
         e.stopPropagation();
         _this2.setState({
-          index: option
+          setting: option
         });
       };
     }
@@ -15204,7 +15229,7 @@ var Sidebar = function (_React$Component) {
             null,
             _react2.default.createElement(
               'div',
-              { onClick: this.changeSelector("all"), className: 'sidebar-item' },
+              { onClick: this.changeSetting("all"), className: 'sidebar-item' },
               _react2.default.createElement(
                 'p',
                 null,
@@ -15222,7 +15247,7 @@ var Sidebar = function (_React$Component) {
             ),
             _react2.default.createElement(
               'div',
-              { onClick: this.changeSelector("shared_with_others"), className: 'sidebar-item' },
+              { onClick: this.changeSetting("shared_with_others"), className: 'sidebar-item' },
               _react2.default.createElement(
                 'p',
                 null,
@@ -15231,7 +15256,7 @@ var Sidebar = function (_React$Component) {
             ),
             _react2.default.createElement(
               'div',
-              { onClick: this.changeSelector("shared_with_me"), className: 'sidebar-item' },
+              { onClick: this.changeSetting("shared_with_me"), className: 'sidebar-item' },
               _react2.default.createElement(
                 'p',
                 null,
@@ -15290,26 +15315,32 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var preloadedState = [{
+  "id": 1,
   "website": "google.com",
   "username": "johndoe@gmail.com",
   "password_id": "#jknkjndsjk$SSD"
 }, {
+  "id": 2,
   "website": "facebook.com",
   "username": "johndoe@gmail.com",
   "password_id": "nnjnnnc#D"
 }, {
+  "id": 3,
   "website": "reddit.com",
   "username": "thejohndoe",
   "password_id": "#)_2-==23D"
 }, {
+  "id": 4,
   "website": "wellsfargo.com",
   "username": "johndoebanks",
   "password_id": "iuh!@@22"
 }, {
+  "id": 5,
   "website": "netflix.com",
   "username": "johndoeandchill",
   "password_id": "(*#$2k$SSD"
 }, {
+  "id": 6,
   "website": "play.hbogo.com",
   "username": "johndoewatchesgameofthrones",
   "password_id": "23789$$SSD"
@@ -15386,11 +15417,13 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var preloadedState = [{
+  "id": 7,
   "website": "youtube.com",
   "username": "macklemore299",
   "password_id": "(*#$2k$SSD",
   "lender_user_id": "macklemore"
 }, {
+  "id": 8,
   "website": "hulu.com",
   "username": "lorenzo789",
   "password_id": "23789$$SSD",
@@ -15428,11 +15461,13 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var preloadedState = [{
+  "id": 9,
   "website": "netflix.com",
   "username": "johndoeandchill",
   "password_id": "(*#$2k$SSD",
   "borrower_user_id": "thefriendofjohndoe"
 }, {
+  "id": 10,
   "website": "play.hbogo.com",
   "username": "johndoewatchesgameofthrones",
   "password_id": "23789$$SSD",
@@ -15459,10 +15494,33 @@ exports.default = SharingReducer;
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(6);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var preloadedState = {
   "username": "johndoe19",
   "name": "John Doe"
 };
+
+var UserReducer = function UserReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : preloadedState;
+  var action = arguments[1];
+
+  Object.freeze(state);
+  switch (action.type) {
+    default:
+      return state;
+  }
+};
+
+exports.default = UserReducer;
 
 /***/ }),
 /* 146 */

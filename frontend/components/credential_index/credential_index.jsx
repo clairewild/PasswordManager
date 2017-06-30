@@ -8,7 +8,9 @@ class CredentialIndex extends React.Component {
   }
 
   render() {
-    const items = this.props.credentials.map(item => <CredentialIndexItem key={item.website} info={item} />)
+    const items = this.props.credentials.map(item =>
+      <CredentialIndexItem key={item.id} info={item} />
+    );
 
     return (
       <div>

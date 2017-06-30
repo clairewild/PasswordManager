@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 
 import CredentialIndex from './credential_index.jsx';
 
@@ -10,7 +9,7 @@ const mapStateToProps = (state, ownProps) => {
         credentials: state.own_credentials.concat(state.shared_with_me).concat(state.shared_with_others)
       });
     case "shared_with_me":
-      ({
+      return ({
         credentials: state.shared_with_me
       });
     case "shared_with_others":
@@ -20,4 +19,4 @@ const mapStateToProps = (state, ownProps) => {
   };
 }
 
-export default connect(mapStateToProps, null)(withRouter(CredentialIndex));
+export default connect(mapStateToProps, null)(CredentialIndex);
