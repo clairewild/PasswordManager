@@ -2,7 +2,7 @@
 
 ## Technologies
 
-I built this project using React,
+I built this project using React and Redux.
 
 ## Design Decisions
 
@@ -20,13 +20,13 @@ Having arrays in my global state meant my reducers had to iterate through the ar
 - login/logout
 - change state shape to store objects of objects
 - allow for multiple usernames for the same site
-- search functionality
+- credential search functionality
 - most used credentials index
 - delete confirmation page
+- controlled form for credential details and button to edit
 
 TODO:
 
 - capitalize names of sites
 - alphabetize sites
 - change css class of active site to turn gray
-- form to share w/ others

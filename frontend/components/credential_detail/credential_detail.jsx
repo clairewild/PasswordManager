@@ -1,5 +1,7 @@
 import React from 'react';
 
+import SharingForm from './sharing_form.jsx';
+
 class CredentialDetail extends React.Component {
   constructor(props) {
     super(props);
@@ -25,30 +27,33 @@ class CredentialDetail extends React.Component {
             <i className="fa fa-trash"></i>
           </div>
         </div>
+        <div className="detail-content">
+          <div className="detail-section">
+            <div className="detail-section-header">
+              <p>Login Info</p>
+            </div>
 
-        <div className="detail-section">
-          <div className="detail-section-header">
-            <p>Login Info</p>
+            <form>
+              <label className="form-label">URL
+                <input type="text" value={info.website}/>
+              </label>
+
+              <label className="form-label">User Name
+                <input type="text" value={info.username}/>
+              </label>
+
+              <label className="form-label">Password
+                <input type="password" value={info.password_id}/>
+              </label>
+            </form>
           </div>
 
-          <form>
-            <label className="form-label">URL
-              <input type="text" value={info.website}/>
-            </label>
+          <div className="detail-section">
+            <div className="detail-section-header">
+              <p>Sharing</p>
+            </div>
 
-            <label className="form-label">User Name
-              <input type="text" value={info.username}/>
-            </label>
-
-            <label className="form-label">Password
-              <input type="password" value={info.password_id}/>
-            </label>
-          </form>
-        </div>
-
-        <div className="detail-section">
-          <div className="detail-section-header">
-            <p>My Usage</p>
+            <SharingForm info={info} shareCredential={this.props.shareCredential} />
           </div>
         </div>
       </div>

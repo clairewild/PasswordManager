@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 import { allObject } from '../helpers.js';
 import { removeCredential } from '../../actions/credentials_actions.js';
 import { removeBorrow } from '../../actions/borrowing_actions.js';
-import { removeLend } from '../../actions/lending_actions.js';
+import { removeLend, receiveLend } from '../../actions/lending_actions.js';
 
 import CredentialDetail from './credential_detail.jsx';
 
@@ -20,7 +20,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(removeCredential(credential));
     dispatch(removeBorrow(credential));
     dispatch(removeLend(credential));
-  }
+  },
+  shareCredential: credential => dispatch(receiveLend(credential))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(CredentialDetail));

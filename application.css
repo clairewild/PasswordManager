@@ -68,6 +68,7 @@ body {
   display: flex;
   align-items: center;
   padding-bottom: 10px;
+  width: 100%;
 }
 
 .index-username {
@@ -107,8 +108,13 @@ body {
   border: 1px solid lightgrey;
   left: 502px;
   height: 100%;
-  width: 80%;
+  width: 650px;
   padding: 40px;
+}
+
+.detail-content {
+  display: flex;
+  justify-content: space-between;
 }
 
 .detail-section {
@@ -149,7 +155,8 @@ body {
   padding: 3px 5px;
   color: white;
   font-size: 13px;
-  margin-left: 470px;
+  position: absolute;
+  right: 40px;
 }
 
 .delete-button:hover {

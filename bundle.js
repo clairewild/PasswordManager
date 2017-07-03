@@ -33203,6 +33203,10 @@ var _react = __webpack_require__(6);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _sharing_form = __webpack_require__(392);
+
+var _sharing_form2 = _interopRequireDefault(_sharing_form);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -33224,81 +33228,86 @@ var CredentialDetail = function (_React$Component) {
   }
 
   _createClass(CredentialDetail, [{
-    key: "handleDelete",
+    key: 'handleDelete',
     value: function handleDelete() {
       this.props.delete(this.props.details);
       this.props.router.push("/");
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
       var info = this.props.details;
-      var imgLink = "http://s2.googleusercontent.com/s2/favicons?domain_url=http://" + info.website;
+      var imgLink = 'http://s2.googleusercontent.com/s2/favicons?domain_url=http://' + info.website;
 
       return _react2.default.createElement(
-        "div",
-        { className: "credential-detail" },
+        'div',
+        { className: 'credential-detail' },
         _react2.default.createElement(
-          "div",
-          { className: "index-header" },
-          _react2.default.createElement("img", { className: "index-favicon", src: imgLink }),
+          'div',
+          { className: 'index-header' },
+          _react2.default.createElement('img', { className: 'index-favicon', src: imgLink }),
           _react2.default.createElement(
-            "h3",
-            { className: "index-title" },
+            'h3',
+            { className: 'index-title' },
             info.website
           ),
           _react2.default.createElement(
-            "div",
-            { onClick: this.handleDelete, className: "delete-button" },
-            _react2.default.createElement("i", { className: "fa fa-trash" })
+            'div',
+            { onClick: this.handleDelete, className: 'delete-button' },
+            _react2.default.createElement('i', { className: 'fa fa-trash' })
           )
         ),
         _react2.default.createElement(
-          "div",
-          { className: "detail-section" },
+          'div',
+          { className: 'detail-content' },
           _react2.default.createElement(
-            "div",
-            { className: "detail-section-header" },
+            'div',
+            { className: 'detail-section' },
             _react2.default.createElement(
-              "p",
+              'div',
+              { className: 'detail-section-header' },
+              _react2.default.createElement(
+                'p',
+                null,
+                'Login Info'
+              )
+            ),
+            _react2.default.createElement(
+              'form',
               null,
-              "Login Info"
+              _react2.default.createElement(
+                'label',
+                { className: 'form-label' },
+                'URL',
+                _react2.default.createElement('input', { type: 'text', value: info.website })
+              ),
+              _react2.default.createElement(
+                'label',
+                { className: 'form-label' },
+                'User Name',
+                _react2.default.createElement('input', { type: 'text', value: info.username })
+              ),
+              _react2.default.createElement(
+                'label',
+                { className: 'form-label' },
+                'Password',
+                _react2.default.createElement('input', { type: 'password', value: info.password_id })
+              )
             )
           ),
           _react2.default.createElement(
-            "form",
-            null,
+            'div',
+            { className: 'detail-section' },
             _react2.default.createElement(
-              "label",
-              { className: "form-label" },
-              "URL",
-              _react2.default.createElement("input", { type: "text", value: info.website })
+              'div',
+              { className: 'detail-section-header' },
+              _react2.default.createElement(
+                'p',
+                null,
+                'Sharing'
+              )
             ),
-            _react2.default.createElement(
-              "label",
-              { className: "form-label" },
-              "User Name",
-              _react2.default.createElement("input", { type: "text", value: info.username })
-            ),
-            _react2.default.createElement(
-              "label",
-              { className: "form-label" },
-              "Password",
-              _react2.default.createElement("input", { type: "password", value: info.password_id })
-            )
-          )
-        ),
-        _react2.default.createElement(
-          "div",
-          { className: "detail-section" },
-          _react2.default.createElement(
-            "div",
-            { className: "detail-section-header" },
-            _react2.default.createElement(
-              "p",
-              null,
-              "My Usage"
-            )
+            _react2.default.createElement(_sharing_form2.default, { info: info, shareCredential: this.props.shareCredential })
           )
         )
       );
@@ -33352,6 +33361,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
       dispatch((0, _credentials_actions.removeCredential)(credential));
       dispatch((0, _borrowing_actions.removeBorrow)(credential));
       dispatch((0, _lending_actions.removeLend)(credential));
+    },
+    shareCredential: function shareCredential(credential) {
+      return dispatch((0, _lending_actions.receiveLend)(credential));
     }
   };
 };
@@ -33397,6 +33409,88 @@ var simpleObject = exports.simpleObject = function simpleObject(array) {
   });
   return result;
 };
+
+/***/ }),
+/* 392 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(6);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _merge = __webpack_require__(47);
+
+var _merge2 = _interopRequireDefault(_merge);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SharingForm = function (_React$Component) {
+  _inherits(SharingForm, _React$Component);
+
+  function SharingForm(props) {
+    _classCallCheck(this, SharingForm);
+
+    var _this = _possibleConstructorReturn(this, (SharingForm.__proto__ || Object.getPrototypeOf(SharingForm)).call(this, props));
+
+    _this.state = {
+      shareUsername: ""
+    };
+    _this.update = _this.update.bind(_this);
+    _this.shareCredential = _this.shareCredential.bind(_this);
+    return _this;
+  }
+
+  _createClass(SharingForm, [{
+    key: 'update',
+    value: function update(e) {
+      this.setState({
+        shareUsername: e.target.value
+      });
+    }
+  }, {
+    key: 'shareCredential',
+    value: function shareCredential(e) {
+      e.preventDefault();
+      var credential = (0, _merge2.default)({}, this.props.info);
+      credential["borrower_user_id"] = this.state.shareUsername;
+      this.props.shareCredential(credential);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'form',
+        { onSubmit: this.shareCredential, className: 'sharing-form' },
+        _react2.default.createElement(
+          'label',
+          { className: 'form-label' },
+          'Username',
+          _react2.default.createElement('input', { onChange: this.update, type: 'text', value: this.state.shareUsername })
+        ),
+        _react2.default.createElement('input', { type: 'submit', value: 'Send invitation' })
+      );
+    }
+  }]);
+
+  return SharingForm;
+}(_react2.default.Component);
+
+exports.default = SharingForm;
 
 /***/ })
 /******/ ]);
