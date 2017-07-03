@@ -1,5 +1,7 @@
 # UnifyId Password Manager
 
+![screenshot](https://res.cloudinary.com/dq5kxnx9d/image/upload/v1499124309/Screen_Shot_2017-07-03_at_4.21.32_PM_szqzav.png)
+
 ## Technologies
 
 I built this project using React and Redux.
