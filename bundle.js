@@ -15809,25 +15809,17 @@ var CredentialIndex = function (_React$Component) {
       var _this2 = this;
 
       var setting = this.props.setting;
-      var items = [];
-      if (setting === "all") {
-        items = Object.keys(this.props.credentials).map(function (key) {
-          var credential = _this2.props.credentials[key];
-          var tag = null;
-          if (credential.lender_user_id) {
-            tag = "Borrowing";
-          }
-          if (credential.borrower_user_id) {
-            tag = "Shared";
-          }
-          return _react2.default.createElement(_credential_index_item2.default, { key: credential.website, info: credential, tag: tag });
-        });
-      } else {
-        items = this.props.credentials.map(function (credential) {
-          var tag = setting === "shared_with_me" ? "Borrowing" : "Shared";
-          return _react2.default.createElement(_credential_index_item2.default, { key: credential.website, info: credential, tag: tag });
-        });
-      }
+      var items = Object.keys(this.props.credentials).map(function (key) {
+        var credential = _this2.props.credentials[key];
+        var tag = null;
+        if (credential.lender_user_id) {
+          tag = "BORROWING";
+        }
+        if (credential.borrower_user_id) {
+          tag = "SHARED";
+        }
+        return _react2.default.createElement(_credential_index_item2.default, { key: credential.website, info: credential, tag: tag });
+      });
 
       return _react2.default.createElement(
         'div',
@@ -15873,17 +15865,17 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
   switch (ownProps.setting) {
     case "all":
       return {
-        credentials: (0, _helpers.createObject)(state.own_credentials, state.shared_with_me, state.shared_with_others),
+        credentials: (0, _helpers.allObject)(state.own_credentials, state.shared_with_me, state.shared_with_others),
         setting: ownProps.setting
       };
     case "shared_with_me":
       return {
-        credentials: state.shared_with_me,
+        credentials: (0, _helpers.simpleObject)(state.shared_with_me),
         setting: ownProps.setting
       };
     case "shared_with_others":
       return {
-        credentials: state.shared_with_others,
+        credentials: (0, _helpers.simpleObject)(state.shared_with_others),
         setting: ownProps.setting
       };
   };
@@ -15961,7 +15953,8 @@ var Sidebar = function (_React$Component) {
             null,
             _react2.default.createElement(
               'div',
-              { onClick: this.changeSetting("all"), className: 'sidebar-item' },
+              { onClick: this.changeSetting("all"),
+                className: (this.state.setting === "all" ? "active" : "") + ' sidebar-item' },
               _react2.default.createElement(
                 'p',
                 null,
@@ -15979,7 +15972,8 @@ var Sidebar = function (_React$Component) {
             ),
             _react2.default.createElement(
               'div',
-              { onClick: this.changeSetting("shared_with_others"), className: 'sidebar-item' },
+              { onClick: this.changeSetting("shared_with_others"),
+                className: (this.state.setting === "shared_with_others" ? "active" : "") + ' sidebar-item' },
               _react2.default.createElement(
                 'p',
                 null,
@@ -15988,7 +15982,8 @@ var Sidebar = function (_React$Component) {
             ),
             _react2.default.createElement(
               'div',
-              { onClick: this.changeSetting("shared_with_me"), className: 'sidebar-item' },
+              { onClick: this.changeSetting("shared_with_me"),
+                className: (this.state.setting === "shared_with_me" ? "active" : "") + ' sidebar-item' },
               _react2.default.createElement(
                 'p',
                 null,
@@ -16075,10 +16070,12 @@ var BorrowingReducer = function BorrowingReducer() {
       newState.push(action.credential);
       return newState;
     case _borrowing_actions.REMOVE_BORROW:
-      var i = newState.indexOf(action.credential);
-      if (i > -1) {
-        newState.splice(i, 1);
-      }
+      newState.forEach(function (credential, i) {
+        if (credential.website === action.credential.website) {
+          newState.splice(i, 1);
+          return newState;
+        }
+      });
       return newState;
     default:
       return state;
@@ -16153,10 +16150,12 @@ var CredentialsReducer = function CredentialsReducer() {
       newState.push(action.credential);
       return newState;
     case _credentials_actions.REMOVE_CREDENTIAL:
-      var i = newState.indexOf(action.credential);
-      if (i > -1) {
-        newState.splice(i, 1);
-      }
+      newState.forEach(function (credential, i) {
+        if (credential.website === action.credential.website) {
+          newState.splice(i, 1);
+          return newState;
+        }
+      });
       return newState;
     default:
       return state;
@@ -16211,10 +16210,12 @@ var LendingReducer = function LendingReducer() {
       newState.push(action.credential);
       return newState;
     case _lending_actions.REMOVE_LEND:
-      var i = newState.indexOf(action.credential);
-      if (i > -1) {
-        newState.splice(i, 1);
-      }
+      newState.forEach(function (credential, i) {
+        if (credential.website === action.credential.website) {
+          newState.splice(i, 1);
+          return newState;
+        }
+      });
       return newState;
     default:
       return state;
@@ -33224,7 +33225,10 @@ var CredentialDetail = function (_React$Component) {
 
   _createClass(CredentialDetail, [{
     key: "handleDelete",
-    value: function handleDelete() {}
+    value: function handleDelete() {
+      this.props.delete(this.props.details);
+      this.props.router.push("/");
+    }
   }, {
     key: "render",
     value: function render() {
@@ -33242,6 +33246,11 @@ var CredentialDetail = function (_React$Component) {
             "h3",
             { className: "index-title" },
             info.website
+          ),
+          _react2.default.createElement(
+            "div",
+            { onClick: this.handleDelete, className: "delete-button" },
+            _react2.default.createElement("i", { className: "fa fa-trash" })
           )
         ),
         _react2.default.createElement(
@@ -33291,11 +33300,6 @@ var CredentialDetail = function (_React$Component) {
               "My Usage"
             )
           )
-        ),
-        _react2.default.createElement(
-          "div",
-          { className: "delete-button" },
-          _react2.default.createElement("i", { onClick: this.handleDelete, className: "fa fa-trash" })
         )
       );
     }
@@ -33319,7 +33323,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _reactRedux = __webpack_require__(82);
 
+var _reactRouter = __webpack_require__(363);
+
 var _helpers = __webpack_require__(391);
+
+var _credentials_actions = __webpack_require__(163);
+
+var _borrowing_actions = __webpack_require__(162);
+
+var _lending_actions = __webpack_require__(164);
 
 var _credential_detail = __webpack_require__(389);
 
@@ -33328,14 +33340,23 @@ var _credential_detail2 = _interopRequireDefault(_credential_detail);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
-  var credentials = (0, _helpers.createObject)(state.own_credentials, state.shared_with_me, state.shared_with_others);
-
+  var credentials = (0, _helpers.allObject)(state.own_credentials, state.shared_with_me, state.shared_with_others);
   return {
     details: credentials[ownProps.params.website]
   };
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(_credential_detail2.default);
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    delete: function _delete(credential) {
+      dispatch((0, _credentials_actions.removeCredential)(credential));
+      dispatch((0, _borrowing_actions.removeBorrow)(credential));
+      dispatch((0, _lending_actions.removeLend)(credential));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)((0, _reactRouter.withRouter)(_credential_detail2.default));
 
 /***/ }),
 /* 391 */
@@ -33347,7 +33368,7 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(_credential_de
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var createObject = exports.createObject = function createObject(own_credentials, shared_with_me, shared_with_others) {
+var allObject = exports.allObject = function allObject(own_credentials, shared_with_me, shared_with_others) {
   var result = {};
   own_credentials.forEach(function (credential) {
     result[credential.website] = credential;
@@ -33365,6 +33386,14 @@ var createObject = exports.createObject = function createObject(own_credentials,
     } else {
       result[lend.website] = lend;
     }
+  });
+  return result;
+};
+
+var simpleObject = exports.simpleObject = function simpleObject(array) {
+  var result = {};
+  array.forEach(function (credential) {
+    result[credential.website] = credential;
   });
   return result;
 };

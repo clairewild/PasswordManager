@@ -7,7 +7,8 @@ class CredentialDetail extends React.Component {
   }
 
   handleDelete() {
-
+    this.props.delete(this.props.details);
+    this.props.router.push("/");
   }
 
   render() {
@@ -19,6 +20,10 @@ class CredentialDetail extends React.Component {
         <div className="index-header">
           <img className="index-favicon" src={imgLink} />
           <h3 className="index-title">{info.website}</h3>
+
+          <div onClick={this.handleDelete} className="delete-button">
+            <i className="fa fa-trash"></i>
+          </div>
         </div>
 
         <div className="detail-section">
@@ -45,10 +50,6 @@ class CredentialDetail extends React.Component {
           <div className="detail-section-header">
             <p>My Usage</p>
           </div>
-        </div>
-
-        <div className="delete-button">
-          <i onClick={this.handleDelete} className="fa fa-trash"></i>
         </div>
       </div>
     );

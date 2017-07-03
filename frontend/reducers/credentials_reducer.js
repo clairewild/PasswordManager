@@ -50,10 +50,12 @@ const CredentialsReducer = (state = preloadedState, action) => {
       newState.push(action.credential);
       return newState;
     case REMOVE_CREDENTIAL:
-      const i = newState.indexOf(action.credential);
-      if (i > -1) {
-        newState.splice(i, 1);
-      }
+      newState.forEach((credential, i) => {
+        if (credential.website === action.credential.website) {
+          newState.splice(i, 1);
+          return newState;
+        }
+      });
       return newState;
     default:
       return state;

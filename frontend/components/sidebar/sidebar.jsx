@@ -25,7 +25,8 @@ class Sidebar extends React.Component {
       <div>
         <aside className="sidebar">
           <ul>
-            <div onClick={this.changeSetting("all")} className="sidebar-item">
+            <div onClick={this.changeSetting("all")}
+                 className={`${this.state.setting === "all" ? "active" : ""} sidebar-item`}>
               <p>All</p>
             </div>
 
@@ -33,11 +34,13 @@ class Sidebar extends React.Component {
               <p>Most used</p>
             </div>
 
-            <div onClick={this.changeSetting("shared_with_others")} className="sidebar-item">
+            <div onClick={this.changeSetting("shared_with_others")}
+                 className={`${this.state.setting === "shared_with_others" ? "active" : ""} sidebar-item`}>
               <p>My shared logins</p>
             </div>
 
-            <div onClick={this.changeSetting("shared_with_me")} className="sidebar-item">
+            <div onClick={this.changeSetting("shared_with_me")}
+                 className={`${this.state.setting === "shared_with_me" ? "active" : ""} sidebar-item`}>
               <p>Shared with me</p>
             </div>
           </ul>

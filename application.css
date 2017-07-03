@@ -39,6 +39,10 @@ body {
   cursor: pointer;
 }
 
+.sidebar-item.active {
+  background-color: #757575;
+}
+
 .credential-index {
   position: fixed;
   height: 90%;
@@ -137,4 +141,17 @@ body {
   color: #4a4a4a;
   font-size: 14px;
   margin-top: 2px;
+}
+
+.delete-button {
+  background-color: #9b9b9b;
+  border-radius: 7px;
+  padding: 3px 5px;
+  color: white;
+  font-size: 13px;
+  margin-left: 470px;
+}
+
+.delete-button:hover {
+  cursor: pointer;
 }

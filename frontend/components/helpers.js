@@ -1,4 +1,4 @@
-export const createObject = function(own_credentials, shared_with_me, shared_with_others) {
+export const allObject = function(own_credentials, shared_with_me, shared_with_others) {
   const result = {};
   own_credentials.forEach(credential => {
     result[credential.website] = credential;
@@ -18,6 +18,14 @@ export const createObject = function(own_credentials, shared_with_me, shared_wit
     else {
       result[lend.website] = lend;
     }
+  });
+  return result;
+}
+
+export const simpleObject = function(array) {
+  const result = {};
+  array.forEach(credential => {
+    result[credential.website] = credential;
   });
   return result;
 }
