@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+import { capitalize } from '../helpers.js';
+
 class CredentialIndexItem extends React.Component {
   constructor(props) {
     super(props);
@@ -27,7 +29,7 @@ class CredentialIndexItem extends React.Component {
         <Link to={link}>
           <div className="index-header">
             <img className="index-favicon" src={imgLink} />
-            <h3 className="index-title">{info.website}</h3>
+            <h3 className="index-title">{capitalize(info.website)}</h3>
           </div>
 
           <div className="index-username">

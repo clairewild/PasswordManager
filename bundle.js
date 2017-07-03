@@ -33107,6 +33107,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = __webpack_require__(363);
 
+var _helpers = __webpack_require__(391);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -33162,7 +33164,7 @@ var CredentialIndexItem = function (_React$Component) {
             _react2.default.createElement(
               'h3',
               { className: 'index-title' },
-              info.website
+              (0, _helpers.capitalize)(info.website)
             )
           ),
           _react2.default.createElement(
@@ -33202,6 +33204,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _react = __webpack_require__(6);
 
 var _react2 = _interopRequireDefault(_react);
+
+var _helpers = __webpack_require__(391);
 
 var _sharing_form = __webpack_require__(392);
 
@@ -33249,7 +33253,7 @@ var CredentialDetail = function (_React$Component) {
           _react2.default.createElement(
             'h3',
             { className: 'index-title' },
-            info.website
+            (0, _helpers.capitalize)(info.website)
           ),
           _react2.default.createElement(
             'div',
@@ -33410,6 +33414,10 @@ var simpleObject = exports.simpleObject = function simpleObject(array) {
   return result;
 };
 
+var capitalize = exports.capitalize = function capitalize(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
 /***/ }),
 /* 392 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -33452,6 +33460,7 @@ var SharingForm = function (_React$Component) {
     };
     _this.update = _this.update.bind(_this);
     _this.shareCredential = _this.shareCredential.bind(_this);
+    _this.renderBorrowers = _this.renderBorrowers.bind(_this);
     return _this;
   }
 
@@ -33471,18 +33480,39 @@ var SharingForm = function (_React$Component) {
       this.props.shareCredential(credential);
     }
   }, {
+    key: 'renderBorrowers',
+    value: function renderBorrowers() {
+      if (this.props.info.borrower_user_id) {
+        return _react2.default.createElement(
+          'div',
+          { className: 'borrower' },
+          _react2.default.createElement('i', { className: 'fa fa-angle-right', 'aria-hidden': 'true' }),
+          _react2.default.createElement(
+            'p',
+            null,
+            this.props.info.borrower_user_id
+          )
+        );
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        'form',
-        { onSubmit: this.shareCredential, className: 'sharing-form' },
+        'div',
+        null,
+        this.renderBorrowers(),
         _react2.default.createElement(
-          'label',
-          { className: 'form-label' },
-          'Username',
-          _react2.default.createElement('input', { onChange: this.update, type: 'text', value: this.state.shareUsername })
-        ),
-        _react2.default.createElement('input', { type: 'submit', value: 'Send invitation' })
+          'form',
+          { onSubmit: this.shareCredential, className: 'sharing-form' },
+          _react2.default.createElement(
+            'label',
+            { className: 'form-label' },
+            'Username',
+            _react2.default.createElement('input', { onChange: this.update, type: 'text', value: this.state.shareUsername })
+          ),
+          _react2.default.createElement('input', { type: 'submit', value: 'Send invitation' })
+        )
       );
     }
   }]);

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { capitalize } from '../helpers.js';
 import SharingForm from './sharing_form.jsx';
 
 class CredentialDetail extends React.Component {
@@ -21,7 +22,7 @@ class CredentialDetail extends React.Component {
       <div className="credential-detail">
         <div className="index-header">
           <img className="index-favicon" src={imgLink} />
-          <h3 className="index-title">{info.website}</h3>
+          <h3 className="index-title">{capitalize(info.website)}</h3>
 
           <div onClick={this.handleDelete} className="delete-button">
             <i className="fa fa-trash"></i>

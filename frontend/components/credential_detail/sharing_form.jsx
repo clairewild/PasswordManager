@@ -9,6 +9,7 @@ class SharingForm extends React.Component {
     }
     this.update = this.update.bind(this);
     this.shareCredential = this.shareCredential.bind(this);
+    this.renderBorrowers = this.renderBorrowers.bind(this);
   }
 
   update(e) {
@@ -24,15 +25,30 @@ class SharingForm extends React.Component {
     this.props.shareCredential(credential);
   }
 
+  renderBorrowers() {
+    if (this.props.info.borrower_user_id) {
+      return (
+        <div className="borrower">
+          <i className="fa fa-angle-right" aria-hidden="true"></i>
+          <p>{this.props.info.borrower_user_id}</p>
+        </div>
+      );
+    }
+  }
+
   render() {
     return (
-      <form onSubmit={this.shareCredential} className="sharing-form">
-        <label className="form-label">Username
-          <input onChange={this.update} type="text" value={this.state.shareUsername} />
-        </label>
+      <div>
+        {this.renderBorrowers()}
 
-        <input type="submit" value="Send invitation" />
-      </form>
+        <form onSubmit={this.shareCredential} className="sharing-form">
+          <label className="form-label">Username
+            <input onChange={this.update} type="text" value={this.state.shareUsername} />
+          </label>
+
+          <input type="submit" value="Send invitation" />
+        </form>
+      </div>
     );
   }
 }

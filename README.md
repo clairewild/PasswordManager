@@ -12,21 +12,20 @@ I kept the preloaded global state exactly as given, but changed the arrays into 
 
 Having arrays in my global state meant my reducers had to iterate through the array to find the correct object to update or delete. It might be more efficient in future to store objects of objects with id's, so that credentials can be deleted or updated in constant time.
 
-
-
 ## Future Features and Improvements
 
-- far left sidebar
-- login/logout
-- change state shape to store objects of objects
+- change css class of site index item to indicate which detail page is showing
+- change global state shape to store objects of objects
 - allow for multiple usernames for the same site
+- allow for multiple shares of the same credential
+- toggle sharing form with a button
+- allow for un-sharing a credential (using removeLend action)
+- controlled form for credential details and button to edit
+- you shouldn't be able to share credentials you're borrowing from someone else!!!
+- delete confirmation page
+- sharing confirmation message
+- alphabetize sites
 - credential search functionality
 - most used credentials index
-- delete confirmation page
-- controlled form for credential details and button to edit
-
-TODO:
-
-- capitalize names of sites
-- alphabetize sites
-- change css class of active site to turn gray
+- far left sidebar
+- login/logout

@@ -29,3 +29,7 @@ export const simpleObject = function(array) {
   });
   return result;
 }
+
+export const capitalize = function(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
